@@ -8,11 +8,47 @@
      * Determined from template width / font size in server/dal/cardApi.js
      */
     const PREVIEW_FONT_RATIO = 21.891;
+    const PREVIEW_AVATAR_RATIO = 2.35;
+
+    const MEM_CAKE_PREFIX = 'css/img/mem_cakes/';
+    const MEM_CAKES = [
+        's2_mem_cake_autobomb.png', 's2_mem_cake_balloon.png', 's2_mem_cake_bisk.png',
+        's2_mem_cake_bumper.png', 's2_mem_cake_burst_bomb.png', 's2_mem_cake_callie.png',
+        's2_mem_cake_chum.png', 's2_mem_cake_crusty_sean.png', 's2_mem_cake_curling_bomb.png',
+        's2_mem_cake_dj_octavio.png', 's2_mem_cake_drizzler.png',
+        's2_mem_cake_familiar_graffiti.png', 's2_mem_cake_firefin.png', 's2_mem_cake_flow.png',
+        's2_mem_cake_flyfish.png', 's2_mem_cake_goldie.png', 's2_mem_cake_inkline.png',
+        's2_mem_cake_inkling_boy_blue.png', 's2_mem_cake_inkling_boy_green.png',
+        's2_mem_cake_inkling_girl_orange.png', 's2_mem_cake_inkling_girl_pink.png',
+        's2_mem_cake_inkling_squid.png', 's2_mem_cake_ishipit_logo.png',
+        's2_mem_cake_jelfonzo.png', 's2_mem_cake_jr_mark.png', 's2_mem_cake_judd_li_l_judd.png',
+        's2_mem_cake_key.png', 's2_mem_cake_king_tank.png', 's2_mem_cake_knitted_hat.png',
+        's2_mem_cake_li_l_max.png', 's2_mem_cake_marie.png', 's2_mem_cake_marina.png',
+        's2_mem_cake_maws.png', 's2_mem_cake_mini_zapfish.png', 's2_mem_cake_mint_dakroniks.png',
+        's2_mem_cake_mr_grizz.png', 's2_mem_cake_murch.png', 's2_mem_cake_neon_sea_slugs.png',
+        's2_mem_cake_octarian.png', 's2_mem_cake_octobomber.png', 's2_mem_cake_octocopter.png',
+        's2_mem_cake_octoling.png', 's2_mem_cake_octopod.png', 's2_mem_cake_octostamp.png',
+        's2_mem_cake_octozeppelin.png', 's2_mem_cake_orange_arrows.png', 's2_mem_cake_pearl.png',
+        's2_mem_cake_power_clam.png', 's2_mem_cake_power_egg.png', 's2_mem_cake_rainmaker.png',
+        's2_mem_cake_sardinium.png', 's2_mem_cake_scrapper.png', 's2_mem_cake_sheldon.png',
+        's2_mem_cake_skalop_hoodie.png', 's2_mem_cake_skalop.png',
+        's2_mem_cake_slow_your_roll_mole.png', 's2_mem_cake_spawn_point.png',
+        's2_mem_cake_splat_bomb.png', 's2_mem_cake_splat_roller.png',
+        's2_mem_cake_splattershot.png', 's2_mem_cake_squid_bumper.png',
+        's2_mem_cake_squidforce.png', 's2_mem_cake_steel_eel.png', 's2_mem_cake_steelhead.png',
+        's2_mem_cake_stinger.png', 's2_mem_cake_suction_bomb.png', 's2_mem_cake_sunken_scroll.png',
+        's2_mem_cake_takoroka_mesh.png', 's2_mem_cake_tentacle.png', 's2_mem_cake_tentakook.png',
+        's2_mem_cake_tentatek.png', 's2_mem_cake_toni_kensa.png', 's2_mem_cake_tower.png',
+        's2_mem_cake_toxic_mist.png', 's2_mem_cake_tree.png',
+        's2_mem_cake_twintacle_octotrooper.png', 's2_mem_cake_white_tee.png',
+        's2_mem_cake_zapfish.png', 's2_mem_cake_zekko.png', 's2_mem_cake_zink.png'
+        ];
 
     export let userdata = {};
     export let setTemplate = (template) => {};
     let templates = null;
     let justMyTemplates = false;
+    let showMemCakes = true;
     let filteredTemplates = null;
     let fuse;
     let search = '';
@@ -74,6 +110,11 @@
         }
     }
 
+    function getRandomMemCake() {
+        const index = Math.floor(Math.random() * MEM_CAKES.length);
+        return `${MEM_CAKE_PREFIX}${MEM_CAKES[index]}`;
+    }
+
     $: previewFontSize = templateWidth / PREVIEW_FONT_RATIO;
 </script>
 
@@ -132,6 +173,12 @@
                         <span class="checkmark"></span>
                     </label>
                 </div>
+                <div class="col">
+                    <label class="checkbox-container">Show mem cakes
+                        <input type="checkbox" bind:checked={showMemCakes} />
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
             </div>
             <div class="row no-gutters">
                 <div class="col">
@@ -158,6 +205,14 @@
                                 {:else}
                                 <img src={template.url} alt="template" style="width:100%;"/>
                                 {/if}
+<!--
+                                <div style="position: absolute; left: 5.98%; top: 9.365%; transform: scale({(Math.floor(Math.random() * 2) + 1) * 2 - 3}, 1)  rotate({Math.floor(Math.random() * 4) * 90}deg);">
+                                    <img src="css/img/s2_mem_cake_octarian.png" alt="B)" width="{templateWidth / PREVIEW_AVATAR_RATIO}"/>
+                                </div>
+-->
+                                <div style="position: absolute; left: 5.98%; top: 9.365%; visibility: {showMemCakes ? 'visible' : 'hidden'};">
+                                    <img src="{getRandomMemCake()}" alt="B)" width="{templateWidth / PREVIEW_AVATAR_RATIO}"/>
+                                </div>
                                 <div class="card-text" style="color:{template.color_friendcode};top:11.5%; font-size: {previewFontSize}px;">
                                     0000-0000-0000
                                 </div>
